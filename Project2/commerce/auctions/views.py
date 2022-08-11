@@ -17,12 +17,25 @@ from .models import Bid, Comment, Listing, User
 
 
 class NewBidForm(forms.Form):
-    bid = forms.FloatField(label="", widget=forms.TextInput(attrs={'placeholder': 'Enter Your Offer'}))
+    bid = forms.FloatField(label="", widget=forms.TextInput(attrs={
+        'placeholder': 'Enter Your Offer',
+        'class': 'myFormClass'
+        }))
 
 class NewCommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('comment',)
+        widgets = {
+            'comment': forms.TextInput(attrs={
+                'class': "myFormClass",
+                'style': 'max-width: 300px;',
+                'placeholder': 'Place a Comment here'
+                }),
+        }
+        labels = {
+            "comment": "",
+        }
 
 
 def index(request):
