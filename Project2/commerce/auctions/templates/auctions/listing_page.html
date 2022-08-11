@@ -1,0 +1,93 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h6><a href="{% url 'categories' %}">categories</a> 
+      {% if listing.category %}
+        > <a href="{% url 'category' listing.category %}">{{ listing.category }}</a>
+      {% endif %}
+    </h6>
+    <h2>{{title}}</h2>
+
+    {% if request.user.is_authenticated %}
+    <form action="{% url 'listing_page' title %}" method="POST">
+      {% csrf_token %}
+      {% if isOnWatchlist %}
+        <button name="watchlistAction" value="unadd">
+            Remove from watchlist
+        </button>
+      {% else %}
+        <button name="watchlistAction" value="add">
+            Add to watchlist
+        </button>
+      {% endif %}
+    </form>
+    {% endif %}
+
+    <form action="{% url 'listing_page' title %}" method="POST">
+      {% csrf_token %}
+      {% if isAuctionOwner and not isAuctionClosed %}
+        <button name="closeListingAction" value="close">
+            Close this listing
+        </button>
+      {% endif %}
+    </form>
+
+    {% if listing.image_url %}
+      <img src={{listing.image_url}} width="400" >
+    {% endif %}
+    
+    {% if not isAuctionClosed %}
+      <form action="{% url 'listing_page' title %}" method="POST">
+        {% include 'auctions/messages.html' %}
+        {% csrf_token %}
+        {{ bidForm }}
+        <input type="submit" value="Place a Bid">
+      </form>
+    {% endif %}
+
+    <div>
+      {% if isAuctionWinner and isAuctionClosed %}
+        <h3>You are the winner of this auction, congratulations!</h3>
+      {% elif isAuctionClosed %}
+      <h3>Auction closed. Check out our Active Listings page!</h3>
+      {% endif %}
+    </div>
+
+    <div>
+      {% if highestBid == -1 %}
+        <h5>No bids for this item yet.</h5>
+      {% else %}
+        <h5>Current highest bid: ${{ highestBid.bid }} by {{ highestBid.user }}</h5>
+      {% endif %}
+    </div>
+
+    <h5>{{ sizeOfBids }} bid(s) so far.</h5>
+    <h6>Starting price: ${{ listing.starting_bid }}</h6>
+
+
+    <h6>{{ listing.description }}</h6>
+    <h6>Listing posted by: {{ listing.user }} on {{ listing.creation_date }}</h6>
+
+
+    {% if not isAuctionClosed %}
+      <form action="{% url 'listing_page' title %}" method="POST">
+        {% include 'auctions/messages.html' %}
+        {% csrf_token %}
+        {{ commentForm }}
+        <input type="submit" value="Post a Comment">
+      </form>
+    {% endif %}
+
+    {% for comment in comments %}
+        <div class="comments" style="padding: 10px;">
+          <p class="font-weight-bold">
+            {{ comment.user }}
+            <span class=" text-muted font-weight-normal">
+              {{ comment.creation_date }}
+            </span>
+          </p>
+          {{ comment.comment | linebreaks }}
+        </div>
+    {% endfor %}
+
+{% endblock %}

@@ -1,0 +1,139 @@
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(https://fonts.gstatic.com/s/productsans/v5/HYvgU2fE2nRJvZ5JFAumwegdm0LZdjqr5-oayXSOefg.woff2) format('woff2');
+}
+
+form {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+
+  #objBox {
+    width: 500px;
+    height: 50px;
+    border-radius: 100px;
+    padding-left: 40px;
+    background-image: url("mag_glass.webp");
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position-x: 5px;
+    background-position-y:center;
+    position: left;
+    background-color: white;
+
+    
+  }
+  #objImage {
+    position: absolute;
+    left: 50%;
+    top: 125%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 35px;
+    
+  }
+
+  #objImage1 {
+    position: absolute;
+    left: 35%;
+    top: 125%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 35px;
+  }
+  #objImage2 {
+    position: absolute;
+    left: 65%;
+    top: 125%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 35px;
+  }
+}
+
+body{
+
+  background-color: #FAFAFA;
+}
+
+.container{
+
+  margin-top: 200px;
+}
+
+.microphone{
+
+      border-top-right-radius: 32px !important;
+ border-bottom-right-radius: 32px !important;
+ background-color: #fff;
+}
+
+
+
+.google{
+  
+       border-top-left-radius: 32px !important;
+ border-bottom-left-radius: 32px !important;
+ background-color: #fff;
+
+}
+
+.input-group-prepend {
+ margin-right: -2px !important;
+}
+
+
+.input-group-append {
+ margin-left: -2px !important;
+}
+
+.form-control:focus {
+ color: #495057; 
+ background-color: #fff;
+ border-color: #ced4da;
+ outline: 0;
+ box-shadow: 0 0 0 0 !important;
+
+}
+
+
+
+.form-control{
+
+   border-right: 0 !important;
+   border-left: 0 !important;
+}
+
+
+@media (max-width: 669px) {
+  span{
+    font-size: 80px;
+  }
+}
+@media (min-width: 670px) {
+  span{
+    font-size: 100px;
+  }
+}
+
+h1 {
+  position: absolute;
+  left: 50%;
+  top: 38%;
+  transform: translate(-50%, -50%);
+
+  .logoImage {
+    width: 300px;
+    height: auto; 
+  }
+}
+
+.links {
+float: right;
+padding-top: 10px;
+padding-right: 30px;
+}
