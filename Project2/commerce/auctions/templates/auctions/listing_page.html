@@ -77,7 +77,6 @@
 
     {% if not isAuctionClosed and request.user.is_authenticated %}
       <form action="{% url 'listing_page' title %}" method="POST">
-        {% include 'auctions/messages.html' %}
         {% csrf_token %}
         {{ commentForm }}
         <input type="submit" class="btn" value="Post a Comment">

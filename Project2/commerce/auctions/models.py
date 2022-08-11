@@ -25,14 +25,13 @@ class Listing(models.Model):
     class Meta:
         ordering = ['creation_date']
 
-    def __str__(self):
-        return f"Title: {self.title} User: {self.user} Price: {self.starting_bid}"
 
 class Bid(models.Model):
     title = models.ForeignKey(Listing, on_delete=models.CASCADE,  related_name='bid')
     # user that is bidding:
     user = models.ForeignKey(User, on_delete=models.CASCADE,  related_name='bid')
     bid = models.FloatField(max_length=16)
+
 
 class Comment(models.Model):
     title = models.ForeignKey(Listing, on_delete=models.CASCADE,  related_name='comment')
@@ -43,6 +42,3 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['creation_date']
-
-    def __str__(self):
-        return 'Comment {} by {}'.format(self.comment, self.user)

@@ -4,22 +4,25 @@ body {
     justify-content: center;
     height: 100vh;
     width: 100vh;
-}
+    }
 
 form {
     padding-top: 5px;
     padding-bottom: 5px;
-}
+    }
+
+hr {
+    margin-left: 0px;
+    margin-right: -100vh;
+    border: 0;
+    border-top: 1px solid #c9c7c7;
+    }
+    
 
 .block-body {
     display: flex;
     flex-direction: column;
-}
-
-hr {
-    margin-left: 0;
-    margin-right: 0;
-}
+    }
 
 .btn {
     background-color: #f1f1f1;
@@ -29,14 +32,14 @@ hr {
     cursor: pointer;
     border-radius: 5px;
     text-align: center;
-  }
+    }
   
 .btn:hover {
     background-color: black;
     color: white;
-  }
+    }
 
-  .myFormClass {
+.myFormClass {
     height: 55px;
     background-color: #f1f1f1;
     color: black;
@@ -44,14 +47,13 @@ hr {
     border: none;
     border-radius: 5px;
     text-align: center;
-  }
+    }
 
-  .comment {
-        width: 45%;
-        height: fit-content;
-        padding: 10px;
-        padding-left: 20px;
-        background-color: rgba(240, 211, 211, 0.791);
-        border-bottom-left-radius: 32px !important;
-    
-  }
+.comment {
+    width: 45%;
+    height: fit-content;
+    padding: 10px;
+    padding-left: 20px;
+    background-color: rgba(240, 211, 211, 0.791);
+    border-bottom-left-radius: 32px !important;
+    }
