@@ -139,7 +139,7 @@ def listing_page(request, TITLE):
         new_comment.save()
     
     # Get all comments
-    comments = Listing.objects.get(title=TITLE).comment.all()
+    comments = reversed(Listing.objects.get(title=TITLE).comment.all())
 
     # Form for adding a bid
     if bidForm.is_valid():
