@@ -17,12 +17,25 @@ from .models import Bid, Comment, Listing, User
 
 
 class NewBidForm(forms.Form):
-    bid = forms.FloatField(label="", widget=forms.TextInput(attrs={'placeholder': 'Enter Your Offer'}))
+    bid = forms.FloatField(label="", widget=forms.TextInput(attrs={
+        'placeholder': 'Enter Your Offer',
+        'class': 'myFormClass'
+        }))
 
 class NewCommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('comment',)
+        widgets = {
+            'comment': forms.TextInput(attrs={
+                'class': "myFormClass",
+                'style': 'max-width: 300px;',
+                'placeholder': 'Place a Comment here'
+                }),
+        }
+        labels = {
+            "comment": "",
+        }
 
 
 def index(request):
@@ -124,8 +137,9 @@ def listing_page(request, TITLE):
         comment = commentForm.cleaned_data['comment']
         new_comment = Comment.objects.create(title=listing, user=request.user, comment=comment, creation_date=datetime.now())
         new_comment.save()
-
-    comments = Listing.objects.get(title=TITLE).comment.all()
+    
+    # Get all comments
+    comments = reversed(Listing.objects.get(title=TITLE).comment.all())
 
     # Form for adding a bid
     if bidForm.is_valid():
@@ -186,7 +200,6 @@ def listing_page(request, TITLE):
             user.won_listing.add(listing)
             user.save() 
 
-
     # Check if a current user is auction owner, current winner or if the auctionis closed
     if request.user == Listing.objects.get(title=TITLE).user:
         isAuctionOwner = True
@@ -194,8 +207,6 @@ def listing_page(request, TITLE):
         isAuctionWinner = True
     if listing.winner:
         isAuctionClosed = True
-
-
 
     return render(request, "auctions/listing_page.html", {
         "title": TITLE,
@@ -221,13 +232,13 @@ def watchlist(request):
 
 
 def categories(request):
-    categories = []
+    categories_list = []
     for listing in Listing.objects.all():
         if listing.category:
-            categories.append(listing.category)
-        
+            categories_list.append(listing.category)
+    categories_set = [*set(categories_list)]
     return render(request, "auctions/categories.html", {
-        "categories": categories
+        "categories": categories_set
     })
 
 

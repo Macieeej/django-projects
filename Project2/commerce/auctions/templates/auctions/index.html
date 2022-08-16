@@ -3,7 +3,7 @@
 {% block body %}
     <h2>Active Listings:</h2>
     {% for listing in listings %}
-            <a href="{% url 'listing_page' listing.title %}">
+            <a href="{% url 'listing_page' listing.title %}" style="color:black">
                 {% if listing.image_url %}
                     <img src={{listing.image_url}} width="400" >
                 {% endif %}

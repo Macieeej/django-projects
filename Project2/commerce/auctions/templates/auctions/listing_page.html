@@ -6,17 +6,18 @@
         > <a href="{% url 'category' listing.category %}">{{ listing.category }}</a>
       {% endif %}
     </h6>
-    <h2>{{title}}</h2>
+    <h1>{{title}}</h1>
+    
 
     {% if request.user.is_authenticated %}
     <form action="{% url 'listing_page' title %}" method="POST">
       {% csrf_token %}
       {% if isOnWatchlist %}
-        <button name="watchlistAction" value="unadd">
+        <button name="watchlistAction" class="btn" value="unadd">
             Remove from watchlist
         </button>
       {% else %}
-        <button name="watchlistAction" value="add">
+        <button name="watchlistAction" class="btn" value="add">
             Add to watchlist
         </button>
       {% endif %}
@@ -26,23 +27,27 @@
     <form action="{% url 'listing_page' title %}" method="POST">
       {% csrf_token %}
       {% if isAuctionOwner and not isAuctionClosed %}
-        <button name="closeListingAction" value="close">
+        <button name="closeListingAction" class="btn btn-primary" value="close">
             Close this listing
         </button>
       {% endif %}
     </form>
 
     {% if listing.image_url %}
-      <img src={{listing.image_url}} width="400" >
+      <img src={{listing.image_url}} width="75%" >
     {% endif %}
     
     {% if not isAuctionClosed %}
-      <form action="{% url 'listing_page' title %}" method="POST">
+      {% if not request.user.is_authenticated %}
+        <h4>Please log in  to bid in the auction.</h4>
+      {% else %}
+      <form action="{% url 'listing_page' title %}"  method="POST">
         {% include 'auctions/messages.html' %}
         {% csrf_token %}
         {{ bidForm }}
-        <input type="submit" value="Place a Bid">
+        <input type="submit" class="btn" value="Place a Bid">
       </form>
+      {% endif %}
     {% endif %}
 
     <div>
@@ -68,21 +73,21 @@
     <h6>{{ listing.description }}</h6>
     <h6>Listing posted by: {{ listing.user }} on {{ listing.creation_date }}</h6>
 
+    <hr>
 
-    {% if not isAuctionClosed %}
+    {% if not isAuctionClosed and request.user.is_authenticated %}
       <form action="{% url 'listing_page' title %}" method="POST">
-        {% include 'auctions/messages.html' %}
         {% csrf_token %}
         {{ commentForm }}
-        <input type="submit" value="Post a Comment">
+        <input type="submit" class="btn" value="Post a Comment">
       </form>
     {% endif %}
 
     {% for comment in comments %}
-        <div class="comments" style="padding: 10px;">
+        <div class="comment">
           <p class="font-weight-bold">
             {{ comment.user }}
-            <span class=" text-muted font-weight-normal">
+            <span class=" text-muted font-weight-normal" style="padding-top: 1px; padding-bottom: 1px;">
               {{ comment.creation_date }}
             </span>
           </p>
