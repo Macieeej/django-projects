@@ -34,12 +34,12 @@ function compose_email() {
             subject: subject,
             body: body
         })
-      })
-      .then(response => response.json())
-      .then(result => {
-          // Print result
-          console.log(result);
-      });
+    })
+    .then(response => response.json())
+    .then(result => {
+        // Print result
+        console.log(result);
+    });
   }
 
 }
@@ -50,22 +50,15 @@ function load_mailbox(mailbox) {
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
 
-  // Get the path to fetch
-  const baseUrl = '/emails';
-  const mailboxName = `/${mailbox.charAt(0) + mailbox.slice(1)}`;
-  const path = `${baseUrl}${mailboxName}`;
-
-  fetch(path)
+  // Show the mailbox name
+  document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+  
+  fetch('/emails/' + mailbox)
   .then(response => response.json())
   .then(emails => {
       // Print emails
       console.log(emails);
 
-      // ... do something else with emails ...
+      // ... do something else with emails ...\
   });
-
-  // Show the mailbox name
-  document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
-  
-  
 }
