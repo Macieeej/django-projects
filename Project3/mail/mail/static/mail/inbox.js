@@ -23,7 +23,7 @@ function compose_email() {
   document.querySelector('#compose-subject').value = '';
   document.querySelector('#compose-body').value = '';
 
-  // Send an email
+  // Send an email and load sent mailbox
   document.querySelector('form').onsubmit = function() {
     fetch('/emails', {
         method: 'POST',
@@ -47,29 +47,38 @@ function load_mailbox(mailbox) {
   document.querySelector('#compose-view').style.display = 'none';
 
   // Show the mailbox name
-  document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+  document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3><div id='rh1'>From:</div><div id='rh2'>Title:</div><div id='rh3'>Date:</div>`;
 
+  // Get the mailbox using api
   fetch('/emails/' + mailbox)
   .then(response => response.json())
   .then(emails => {
-      // Print emails
-      console.log(emails);
+ 
       // Run add_email function for each email in emails
       emails.forEach(add_email);
   });
 
-  function add_email(contents) {
+  function add_email(email) {
     
     // Create new post
-    const post = document.createElement('div');
-    post.className = 'post';
-    post.addEventListener('click', function() {
-      load_mail(contents.id)
+    const element = document.createElement('div');
+    // Add on click functionality
+    element.addEventListener('click', function() {
+
+      load_mail(email.id)
     });
-    post.innerHTML = `<li class="list-group-item">${contents.sender} || ${contents.subject} || ${contents.timestamp}</li>`;
+
+    // Check if item is marked as read and change its html class
+    if (email.read) {
+      element.className = 'read';
+    } else {
+      element.className = 'unread';
+    }
+
+    element.innerHTML = `<div id='r1'>${email.sender}</div> <div id='r2'>${email.subject}</div> <div id='r3'>${email.timestamp}</div>`;
 
     // Add post to DOM
-    document.querySelector('#emails-view').append(post);
+    document.querySelector('#emails-view').append(element);
   };
 }
 
@@ -81,20 +90,30 @@ function load_mail(id) {
   document.querySelector('#emails-view').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'none';
 
+  // Mark clicked email as read
+  fetch('/emails/'+id, {
+    method: 'PUT',
+    body: JSON.stringify({
+        read: true
+    })
+  });
+
+  // Get the email using api
   fetch('/emails/' + id)
   .then(response => response.json())
   .then(email => {
-      // Print email
-      console.log(email);
 
       // Create new post
-      const post = document.createElement('div');
-      post.className = 'post';
-      post.innerHTML = `<h3>${email.sender}</h3> <h3>${email.subject}</h3> <h3>${email.timestamp}</h3>`;
+      const element = document.createElement('div');
+      element.className = 'displayEmail';
+      element.innerHTML = `
+      <h6>From: ${email.sender}</h6>
+      <h6>To: ${email.recipients}</h6>
+      <h6>${email.timestamp}</h6><hr>
+      <h5>${email.subject}</h5>
+      <a>${email.body}</a>`;
 
-      // Show the email name
-      document.querySelector('#email-view').innerHTML = `<h3>${email.subject.charAt(0).toUpperCase() + email.subject.slice(1)}</h3>`;
-      // Add post to DOM
-      document.querySelector('#email-view').append(post);
+      // Show the email
+      document.querySelector('#email-view').innerHTML = element.innerHTML;
   });
 }
