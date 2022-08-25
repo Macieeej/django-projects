@@ -2,7 +2,7 @@
 
 **Harvard's CS50** Web Programming with Python and JavaScript - Projects
 
-**Project2, Commerce:**  
+**Project3, Mail:**  
 Front-end for an email client that makes API calls to send and receive emails.  
 Project presentation: https://www.youtube.com/watch?v=gmXi4YH3JBg&ab_channel=Macieeej  
 Full specification: https://cs50.harvard.edu/web/2020/projects/3/mail/
