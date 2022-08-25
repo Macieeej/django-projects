@@ -126,7 +126,7 @@ function load_email(id) {
           document.querySelector('#compose-subject').value = 'Re: ' + email.subject;
         }
         
-        document.querySelector('#compose-body').value = 'On ' + email.timestamp + ' ' + email.sender + ' wrote:\n' + email.body;
+        document.querySelector('#compose-body').value = '\n\nOn ' + email.timestamp + ' ' + email.sender + ' wrote:\n' + email.body;
       });
       document.querySelector('#email-view').append(replyButton);
   });
