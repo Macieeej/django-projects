@@ -1,0 +1,64 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+<div id="compose-view" class="container">
+    <h3>New Post</h3>
+    <form id="compose-form" method="post">
+        {% csrf_token %}
+        <textarea class="form-control" name="post_body" id="compose-body" placeholder="Body"></textarea>
+        <input type="submit" class="btn btn-primary"/>
+    </form>
+</div>
+
+<div id="posts-view">
+</div>
+
+<div>
+    {% for post in posts %}
+        <hr>
+        <div class="container border rounded single_post">
+            <a class="post_user" href="{% url 'user_profile' user=post.user page=1 %}"><strong>{{ post.user }}</strong></a>
+            <h7 class="post_timestamp">{{ post.timestamp }}</h7>
+            <textarea id="showthis" style="display:none">fdsfsdfdsfdsdfdfs</textarea>
+            <div name="post_body" id="post_body">{{ post.body }}</div>
+            <h3 id="post_id">{{ post.pk }}</h3>
+            
+            
+
+            <form id="edit-form">
+                <textarea class="form-control" id="compose-body" placeholder="Body"></textarea>
+                <button id="save-button" class="btn btn-primary">Save</button>
+            </form>
+            
+
+
+            <h4 class="post_likes">{{ post.likes }}</h4>
+            <button class="btn btn-sm btn-outline-primary" id="like">Like</button>
+            {% if post.user == request.user %}
+                <button class="btn btn-sm btn-outline-primary" id="edit">Edit</button>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+
+<nav aria-label="...">
+    <ul class="pagination justify-content-center">
+        {% if has_prev %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'index' page_prev %}">Previous</a>
+            </li>
+        {% endif %}
+        {% if has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'index' page_next %}">Next</a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="{% static 'network/feed.js' %}"></script>
+{% endblock script %}

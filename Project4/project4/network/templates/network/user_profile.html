@@ -1,0 +1,50 @@
+{% extends "network/layout.html" %}
+{% block body %}
+
+<h3>{{ queriedUser }}</h3>
+<h3>Followers: {{ followersNum }}</h3>
+<h3>Following: {{ followingNum }}</h3>
+
+{% if request.user.is_authenticated and not isOwnProfile %}
+<form action="{% url 'user_profile' user=queriedUser page=1 %}" method="POST">
+  {% csrf_token %}
+  {% if isFollower %}
+    <button name="followAction" class="btn btn-outline-primary" value="unfollow">
+        Unfollow
+    </button>
+  {% else %}
+    <button name="followAction" class="btn btn-outline-primary" value="follow">
+        Follow
+    </button>
+  {% endif %}
+</form>
+{% endif %}
+
+<div>
+  {% for post in posts %}
+      <hr>
+      <div class="container border rounded single_post">
+          <a class="" href="{% url 'user_profile' user=post.user page=1 %}"><strong>{{ post.user }}</strong></a>
+          <h7>{{ post.timestamp }}</h7>
+          <h3>{{ post.body }}</h3>
+          <h4>{{ post.likes }}</h4>
+      </div>
+  {% endfor %}
+</div>
+
+<nav aria-label="...">
+  <ul class="pagination justify-content-center">
+      {% if has_prev %}
+          <li class="page-item">
+              <a class="page-link" href="{% url 'user_profile' user=queriedUser page=page_prev %}">Previous</a>
+          </li>
+      {% endif %}
+      {% if has_next %}
+          <li class="page-item">
+              <a class="page-link" href="{% url 'user_profile' user=queriedUser page=page_next %}">Next</a>
+          </li>
+      {% endif %}
+  </ul>
+</nav>
+
+{% endblock %}
