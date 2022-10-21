@@ -22,14 +22,14 @@
             <h7 class="post_timestamp">{{ post.timestamp }}</h7>
             <textarea id="showthis" style="display:none">fdsfsdfdsfdsdfdfs</textarea>
             <div name="post_body" id="post_body">{{ post.body }}</div>
-            <h3 id="post_id">{{ post.pk }}</h3>
+            <input type="hidden" id="post_id" value="{{ post.pk }}"/>
             
             
 
-            <form id="edit-form">
+            <div id="edit-form">
                 <textarea class="form-control" id="compose-body" placeholder="Body"></textarea>
                 <button id="save-button" class="btn btn-primary">Save</button>
-            </form>
+            </div>
             
 
 

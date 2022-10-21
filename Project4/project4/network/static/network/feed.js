@@ -11,13 +11,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function load_edit(post) {
-  console.log("Hello world!");
   
-  var id = post.querySelector("#post_id").innerHTML;
+  var id = post.querySelector("#post_id").value;
   post.querySelector('#post_body').style.display = 'none';
   post.querySelector('#edit-form').style.display = 'block';
-  //post.querySelector('#compose-body').value = "dsdcdcs";
-  // Get the email using api
+
+  // Get the post using api, preprend textareap with body content
   fetch('/posts/' + id, {
     method: 'GET' })
   .then(response => response.json())
@@ -25,25 +24,19 @@ function load_edit(post) {
     post.querySelector('#compose-body').value = fetchedPost.body;
   });
 
-
-  /*post.querySelector('#edit-form').addEventListener('click', function() {
+  // Send edited post using api
+  post.querySelector('#save-button').onclick = (e) => {
     fetch('/posts/' + id, {
       method: 'PUT',
       body: JSON.stringify({
           body: post.querySelector('#compose-body').value
       })
     })
-    e.preventDefault()
-  });;*/
-
-      post.querySelector('#edit-form').onclick = (e) => {
-    fetch('/posts/' + id, {
-      method: 'PUT',
-      body: JSON.stringify({
-          body: post.querySelector('#compose-body').value
-      })
-    })
-    //e.preventDefault()
+    .then(() => {
+      post.querySelector('#edit-form').style.display = 'none'
+      post.querySelector('#post_body').style.display = 'block';
+      post.querySelector('#post_body').innerHTML = post.querySelector('#compose-body').value;
+    });
   } 
 }
 
