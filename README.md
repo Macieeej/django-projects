@@ -4,7 +4,7 @@
 
 
 **Project4, Network:**  
-Twitter-like social network website for making posts and following users.
+Twitter-like social network website for making posts and following users.  
 Full specification: https://cs50.harvard.edu/web/2020/projects/4/network/
 
 **Project3, Mail:**  
