@@ -1,0 +1,31 @@
+{% extends "network/layout.html" %}
+{% block body %}
+
+<div>
+    {% for post in posts %}
+        <hr>
+        <div class="container border rounded single_post">
+            <a class="" href="{% url 'user_profile' user=post.user page=1 %}"><strong>{{ post.user }}</strong></a>
+            <h7>{{ post.timestamp }}</h7>
+            <h3>{{ post.body }}</h3>
+            <h4>{{ post.likes }}</h4>
+        </div>
+    {% endfor %}
+</div>
+
+<nav aria-label="...">
+    <ul class="pagination justify-content-center">
+        {% if has_prev %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'following' page_prev %}">Previous</a>
+            </li>
+        {% endif %}
+        {% if has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'following' page_next %}">Next</a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+
+{% endblock %}
